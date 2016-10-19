@@ -1,0 +1,37 @@
+{
+  "name": "json-schema-to-flow-type",
+  "version": "0.1.0",
+  "ava": {
+    "files": [
+      "**/__tests__/*.spec.js"
+    ],
+    "require": [
+      "babel-core/register"
+    ],
+    "babel": "inherit"
+  },
+  "scripts": {
+    "lint": "eslint ./src --fix",
+    "test": "npm run lint && ava",
+    "build": "rm -rf lib && babel src --ignore __**__ -d lib",
+    "flow-typed": "flow-typed install",
+    "postinstall": "npm run flow-typed",
+    "prepublish": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "@morlay/babel-preset": "2.1.x",
+    "@morlay/eslint-config": "2.1.x",
+    "ava": "0.16.x",
+    "flow-bin": "0.33.x",
+    "flow-typed": "2.0.x"
+  },
+  "dependencies": {
+    "lodash": "4.16.x"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib/**",
+    "src/**"
+  ],
+  "license": "WTFPL"
+}

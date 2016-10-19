@@ -1,0 +1,12 @@
+{
+  "presets": [
+    [
+      "@morlay/babel-preset",
+      {
+        "targets": {
+          "node": "6"
+        }
+      }
+    ]
+  ]
+}
