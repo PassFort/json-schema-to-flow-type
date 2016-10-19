@@ -2,7 +2,10 @@
 
 import _ from 'lodash';
 
-import type { Schema } from './schema.js.flow';
+import type {
+  Schema,
+  SimpleTypes,
+} from './schema.js.flow';
 
 type FlowType = 'Object' | 'Array' | 'string' | 'number' | 'boolean' | 'null' | 'any' | 'void';
 
@@ -143,10 +146,15 @@ export const convertSchema = (
     );
 
   if (_.isArray(schema.type)) {
-    return f.union(_.map(schema.type, (type) => convertSchema({
-      ...schema,
-      type,
-    })));
+    return f.union(
+      _.map(
+        [].concat(schema.type || []),
+        (type: SimpleTypes) => convertSchema({
+          ...schema,
+          type,
+        }),
+      )
+    );
   }
 
   if (schema.oneOf) {
@@ -172,7 +180,7 @@ export const convertSchema = (
       ]);
   }
 
-  switch (_.toLower(schema.type)) {
+  switch (_.toLower(String(schema.type))) {
     case 'string':
       return f.flowType('string');
     case 'number':

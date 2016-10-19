@@ -1,6 +1,6 @@
 {
   "name": "json-schema-to-flow-type",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "ava": {
     "files": [
       "**/__tests__/*.spec.js"
@@ -14,9 +14,7 @@
     "lint": "eslint ./src --fix",
     "test": "npm run lint && ava",
     "build": "rm -rf lib && babel src --ignore __**__ -d lib",
-    "flow-typed": "flow-typed install",
-    "postinstall": "npm run flow-typed",
-    "prepublish": "npm test && npm run build"
+    "prepublish": "flow-typed update && npm test && npm run build"
   },
   "devDependencies": {
     "@morlay/babel-preset": "2.1.x",
@@ -33,5 +31,10 @@
     "lib/**",
     "src/**"
   ],
-  "license": "WTFPL"
+  "license": "WTFPL",
+  "repository": {
+    "url": "git@github.com:morlay/json-schema-to-flow-type.git",
+    "type": "git"
+  },
+  "author": "Morlay <morlay@qq.com>"
 }

@@ -39,7 +39,7 @@ const processArraySchema = (flowSchema: FlowSchema, processor: SchemaProcessor):
 
 const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor): string => {
   const fields = _.reduce(
-    flowSchema.$properties,
+    flowSchema.$properties || {},
     (nextFields: Object, fieldFlowSchema: FlowSchema, field: string) => ({
       ...nextFields,
       [`${field}${_.includes(flowSchema.$required, field) ? '' : '?'}`]: processor(fieldFlowSchema),
