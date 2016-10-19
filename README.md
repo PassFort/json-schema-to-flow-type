@@ -1,14 +1,11 @@
-# Convert JSON Schema to Flow Type Definitions;
+# Convert JSON Schema to Flow Type Definitions
+
+[![Build Status](https://img.shields.io/travis/morlay/json-schema-to-flow-type.svg?style=flat-square)](https://travis-ci.org/morlay/json-schema-to-flow-type)
+[![NPM](https://img.shields.io/npm/v/json-schema-to-flow-type.svg?style=flat-square)](https://npmjs.org/package/json-schema-to-flow-type)
+[![Dependencies](https://img.shields.io/david/morlay/json-schema-to-flow-type.svg?style=flat-square)](https://david-dm.org/morlay/json-schema-to-flow-type)
+[![License](https://img.shields.io/npm/l/json-schema-to-flow-type.svg?style=flat-square)](https://npmjs.org/package/json-schema-to-flow-type)
 
 
-[![npm][json-schema-to-flow-type-badge]][json-schema-to-flow-type]
-[![dependences][json-schema-to-flow-type-deps-badge]][json-schema-to-flow-type-deps]
-
-[json-schema-to-flow-type]: https://www.npmjs.com/package/@morlay/json-schema-to-flow-type
-[json-schema-to-flow-type-badge]: https://img.shields.io/npm/v/@morlay/json-schema-to-flow-type.svg
-
-[json-schema-to-flow-type-deps]: https://david-dm.org/morlay/dep-packages?path=packages/json-schema-to-flow-type
-[json-schema-to-flow-type-deps-badge]: https://david-dm.org/morlay/dep-packages.svg?path=packages/json-schema-to-flow-type
 
 ## APIs
 
