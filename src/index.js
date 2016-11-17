@@ -1,5 +1,7 @@
 // @flow
 
+import * as t from 'babel-types';
+import generate from 'babel-generator';
 import _ from 'lodash';
 
 import type { Schema } from './schema.js.flow';
@@ -17,51 +19,58 @@ type SchemaProcessor = (flowSchema: FlowSchema) => string;
 
 const upperCamelCase = (str: string): string => _.upperFirst(_.camelCase(str));
 
-const unionTypes = (types: Array<string>): string => _.join(_.uniq(types), ' | ');
+const optional = (astNode) =>
+  _.assign(astNode, { optional: true });
 
-const intersectionTypes = (types: Array<string>): string => _.join(_.uniq(types), ' & ');
-
-const fieldsToFlowObjectDef = (
-  fields: { [key: string]: string },
-): string => {
-  const flowDef = _.map(
-    fields,
-    (typeDefine: string, field: string): string => (
-      `${field}: ${typeDefine}`
-    ),
-  ).join(', ');
-
-  return `{ ${flowDef} }`;
-};
-
-const processArraySchema = (flowSchema: FlowSchema, processor: SchemaProcessor): string =>
-  `Array<${processor(flowSchema.flowType('any'))}>`;
-
-const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor): string => {
-  const fields = _.reduce(
-    flowSchema.$properties || {},
-    (nextFields: Object, fieldFlowSchema: FlowSchema, field: string) => ({
-      ...nextFields,
-      [`${field}${_.includes(flowSchema.$required, field) ? '' : '?'}`]: processor(fieldFlowSchema),
-    }),
-    {},
+const processArraySchema = (flowSchema: FlowSchema, processor: SchemaProcessor): Object =>
+  t.genericTypeAnnotation(
+    t.identifier('Array'),
+    t.typeParameterInstantiation([
+      processor(flowSchema.flowType('any')),
+    ]),
   );
 
-  return fieldsToFlowObjectDef({
-    ...fields,
-    ...(flowSchema.$union ? ({
-      '[key: any]': processor(flowSchema.flowType('any')),
-    }) : {}),
-  });
+const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor): Object => {
+  const properties = _.map(
+    flowSchema.$properties || {},
+    (fieldFlowSchema: FlowSchema, field: string) => {
+      const ast = t.objectTypeProperty(
+        t.identifier(field),
+        processor(fieldFlowSchema),
+      );
+
+      if (flowSchema.$required) {
+        return ast;
+      }
+
+      return optional(ast);
+    },
+  );
+
+  return t.objectTypeAnnotation(
+    properties,
+    flowSchema.$union ? [
+      t.objectTypeIndexer(
+        t.identifier('key'),
+        t.anyTypeAnnotation(),
+        processor(flowSchema.flowType('any')),
+      ),
+    ] : null,
+  );
 };
 
-const toFlowType = (flowSchema: FlowSchema): string => {
+const toFlowType = (flowSchema: FlowSchema): Object => {
   if (flowSchema.$flowRef) {
-    return upperCamelCase(flowSchema.$flowRef);
+    return t.identifier(upperCamelCase(flowSchema.$flowRef));
   }
 
   if (flowSchema.$enum) {
-    return unionTypes(_.map(flowSchema.$enum, (value) => JSON.stringify(value)));
+    return t.createUnionTypeAnnotation(
+      _.map(
+        flowSchema.$enum,
+        (value) => t.identifier(JSON.stringify(value)),
+      ),
+    );
   }
 
   if (flowSchema.$flowType === 'Array') {
@@ -73,23 +82,38 @@ const toFlowType = (flowSchema: FlowSchema): string => {
   }
 
   if (flowSchema.$union) {
-    return unionTypes(_.map(flowSchema.$union, toFlowType));
+    return t.unionTypeAnnotation(_.map(flowSchema.$union, toFlowType));
   }
 
   if (flowSchema.$intersection) {
-    return intersectionTypes(_.map(flowSchema.$intersection, toFlowType));
+    return t.intersectionTypeAnnotation(_.map(flowSchema.$intersection, toFlowType));
   }
 
-  return flowSchema.$flowType;
+
+  if (flowSchema.$flowType === 'any') {
+    return t.anyTypeAnnotation()
+  }
+
+  return t.createTypeAnnotationBasedOnTypeof(flowSchema.$flowType);
 };
 
-export const toFlow = (flowSchema: FlowSchema): string =>
-  `export type ${upperCamelCase(flowSchema.$id)} = ${toFlowType(flowSchema)};`;
+export const toFlow = (flowSchema: FlowSchema): Object =>
+  t.exportNamedDeclaration(
+    t.typeAlias(
+      t.identifier(upperCamelCase(flowSchema.$id)),
+      null,
+      toFlowType(flowSchema),
+    ),
+    [],
+  );
 
-export const schemaToFlow = (flowSchema: FlowSchema): string => [
-  ...(_.map(flowSchema.$definitions, toFlow)),
-  toFlow(flowSchema),
-].join('\n\n');
+export const schemaToFlow = (flowSchema: FlowSchema): string =>
+  generate(
+    t.program([
+      ...(_.map(flowSchema.$definitions, toFlow)),
+      toFlow(flowSchema),
+    ]),
+  ).code;
 
 export {
   simplifySchema,
