@@ -17,14 +17,17 @@
     "prepublish": "flow-typed update && npm test && npm run build"
   },
   "devDependencies": {
-    "@morlay/babel-preset": "2.1.x",
-    "@morlay/eslint-config": "2.1.x",
+    "@morlay/babel-preset": "3.0.x",
+    "@morlay/eslint-config": "3.0.x",
     "ava": "0.16.x",
-    "flow-bin": "0.33.x",
+    "babel-cli": "6.18.x",
+    "babel-core": "6.18.x",
+    "eslint": "3.10.x",
+    "flow-bin": "0.35.x",
     "flow-typed": "2.0.x"
   },
   "dependencies": {
-    "lodash": "4.16.x"
+    "lodash": "4.17.x"
   },
   "main": "lib/index.js",
   "files": [

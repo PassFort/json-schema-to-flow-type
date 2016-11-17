@@ -28,7 +28,7 @@ const fieldsToFlowObjectDef = (
     fields,
     (typeDefine: string, field: string): string => (
       `${field}: ${typeDefine}`
-    )
+    ),
   ).join(', ');
 
   return `{ ${flowDef} }`;
@@ -97,7 +97,7 @@ export {
 };
 
 export const parseSchema = (
-  schema: Schema, imports: ?{ [key: string]: Schema }
+  schema: Schema, imports: ?{ [key: string]: Schema },
 ): string =>
   _.flow(
     (s: Schema) => simplifySchema(s, imports),

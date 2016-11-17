@@ -34,7 +34,7 @@ export class FlowSchema {
   $flowType: FlowType;
   $flowRef: ?string;
   $required: ?Array<any>;
-  $properties: ?{ [key: string] : FlowSchema };
+  $properties: ?{ [key: string]: FlowSchema };
   $enum: ?Array<any>;
   $union: ?Array<FlowSchema>;
   $intersection: ?Array<FlowSchema>;
@@ -141,8 +141,8 @@ export const convertSchema = (
     .definitions(
       _.mapValues(
         schema.definitions,
-        (definition: Schema, id: any) => convertSchema(_.assign(_.omit(definition, '$ref'), { id }))
-      )
+        (definition: Schema, id: any) => convertSchema(_.assign(_.omit(definition, '$ref'), { id })),
+      ),
     );
 
   if (_.isArray(schema.type)) {
@@ -153,7 +153,7 @@ export const convertSchema = (
           ...schema,
           type,
         }),
-      )
+      ),
     );
   }
 

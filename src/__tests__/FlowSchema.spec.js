@@ -44,7 +44,7 @@ test('should convert multi type', (t: AssertContext) => {
       .union([
         flow('string'),
         flow('number'),
-      ])
+      ]),
   );
 });
 
@@ -55,7 +55,7 @@ test('should convert simple types', (t: AssertContext) => {
       type: 'string',
     }),
     flow('string')
-      .id('String')
+      .id('String'),
   );
 
   t.deepEqual(
@@ -64,7 +64,7 @@ test('should convert simple types', (t: AssertContext) => {
       type: 'number',
     }),
     flow('number')
-      .id('Number')
+      .id('Number'),
   );
 
   t.deepEqual(
@@ -73,7 +73,7 @@ test('should convert simple types', (t: AssertContext) => {
       type: 'integer',
     }),
     flow('number')
-      .id('Integer')
+      .id('Integer'),
   );
 
   t.deepEqual(
@@ -82,7 +82,7 @@ test('should convert simple types', (t: AssertContext) => {
       type: 'boolean',
     }),
     flow('boolean')
-      .id('Boolean')
+      .id('Boolean'),
   );
 
   t.deepEqual(
@@ -91,7 +91,7 @@ test('should convert simple types', (t: AssertContext) => {
       type: 'null',
     }),
     flow('null')
-      .id('Null')
+      .id('Null'),
   );
 });
 
