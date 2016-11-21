@@ -33,7 +33,7 @@ export class FlowSchema {
   $id: string;
   $flowType: FlowType;
   $flowRef: ?string;
-  $required: ?Array<any>;
+  $required: ?Array<string>;
   $properties: ?{ [key: string]: FlowSchema };
   $enum: ?Array<any>;
   $union: ?Array<FlowSchema>;
