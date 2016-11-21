@@ -1,7 +1,5 @@
-// @flow
-
 import test from 'ava';
-import fs from 'fs';
+import fse from 'fs-extra';
 import schemaJSON from './fixtures/schema.json';
 import swaggerJSON from './fixtures/swagger.json';
 
@@ -9,9 +7,7 @@ import {
   parseSchema,
 } from '../index';
 
-const stringify = (str: string): string => `// @flow
-/* eslint no-use-before-define: 0 */
-
+const stringify = (str: string): string => `/* eslint-disable */
 ${str}
 `;
 
@@ -21,7 +17,7 @@ test('convert schema json', () => {
     id: 'Schema',
   });
 
-  fs.writeFileSync('../schema.js.flow', stringify(result));
+  fse.outputFileSync('./definitions/Schema.js', stringify(result));
 });
 
 test('convert swagger json', () => {
@@ -32,5 +28,5 @@ test('convert swagger json', () => {
     './fixtures/schema.json': schemaJSON,
   });
 
-  fs.writeFileSync('../swagger.js.flow', stringify(result));
+  fse.outputFileSync('./definitions/Swagger.js', stringify(result));
 });

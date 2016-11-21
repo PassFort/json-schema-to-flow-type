@@ -4,7 +4,7 @@
       "@morlay/babel-preset",
       {
         "targets": {
-          "node": "6"
+          "node": "current"
         }
       }
     ]

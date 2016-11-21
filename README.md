@@ -25,9 +25,9 @@ type Imports = {
 
 convert schema to a flow schema
 
-### `toFlow(flowSchema): string`
+### `toFlow(flowSchema): AstObject`
 
-will print `export ${upperCamelCase(flowSchema.id)} == ${toFlowType(flowType)}`
+will export ast object `export ${upperCamelCase(flowSchema.id)} == ${toFlowType(flowType)}`
 
 ### `schemaToFlow(flowSchema): string`
 

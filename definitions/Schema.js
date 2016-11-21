@@ -1,6 +1,4 @@
-// @flow
-/* eslint no-use-before-define: 0 */
-
+/* eslint-disable */
 export type SchemaArray = Array<Schema>;
 export type PositiveInteger = number;
 export type PositiveIntegerDefault0 = PositiveInteger;

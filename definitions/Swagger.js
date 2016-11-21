@@ -1,6 +1,4 @@
-// @flow
-/* eslint no-use-before-define: 0 */
-
+/* eslint-disable */
 export type Info = {
   title: string;
   version: string;
@@ -97,7 +95,8 @@ export type Header = {
   description?: string;
   [key: any]: VendorExtension;
 };
-export type VendorExtension = Array<any>;
+export type VendorExtension = { [key: any]: any;
+};
 export type BodyParameter = {
   description?: string;
   name: string;

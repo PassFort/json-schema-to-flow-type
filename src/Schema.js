@@ -1,8 +1,8 @@
-// @flow
-
 import _ from 'lodash';
 
-import type { Schema } from './schema.js.flow';
+import type {
+  Schema,
+} from '../definitions/Schema';
 
 type Imports = { [key: string]: Schema };
 

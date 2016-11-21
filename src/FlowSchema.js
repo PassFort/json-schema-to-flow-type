@@ -1,14 +1,11 @@
-// @flow
-
 import _ from 'lodash';
 
 import type {
   Schema,
   SimpleTypes,
-} from './schema.js.flow';
+} from '../definitions/Schema';
 
 type FlowType = 'Object' | 'Array' | 'string' | 'number' | 'boolean' | 'null' | 'any' | 'void';
-
 
 const hasProps = (schema: Schema, props: Array<string>): boolean =>
   _.reduce(props, (result: boolean, prop: string) => result || _.has(schema, prop), false);
