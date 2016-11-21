@@ -39,7 +39,7 @@ const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor)
         processor(fieldFlowSchema),
       );
 
-      if (flowSchema.$required) {
+      if (_.includes(flowSchema.$required, field)) {
         return ast;
       }
 
