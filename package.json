@@ -12,14 +12,14 @@
   },
   "scripts": {
     "lint": "eslint ./src --fix",
-    "test": "ava",
+    "test": "npm run lint && ava -v",
     "build": "rm -rf lib && babel src --ignore __**__ -d lib",
     "prepublish": "flow-typed update && npm test && npm run build"
   },
   "devDependencies": {
     "@morlay/babel-preset": "3.0.x",
     "@morlay/eslint-config": "3.0.x",
-    "ava": "0.16.x",
+    "ava": "0.17.x",
     "babel-cli": "6.18.x",
     "babel-core": "6.18.x",
     "babel-generator": "6.19.0",

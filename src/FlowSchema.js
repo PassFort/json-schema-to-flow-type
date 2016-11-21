@@ -165,11 +165,6 @@ export const convertSchema = (
     return f.union(_.map(schema.anyOf, convertSchema));
   }
 
-  if (isArray(schema)) {
-    return f.flowType('Array')
-      .union(_.map([].concat(schema.items || {}), convertSchema));
-  }
-
   if (isObject(schema)) {
     return f.flowType('Object')
       .props(_.mapValues(schema.properties, convertSchema), schema.required)
@@ -178,6 +173,11 @@ export const convertSchema = (
         (typeof schema.additionalProperties === 'object') ? convertSchema(schema.additionalProperties) : undefined,
         (typeof schema.additionalProperties === 'boolean' && schema.additionalProperties) ? convertSchema({}) : undefined,
       ]);
+  }
+
+  if (isArray(schema)) {
+    return f.flowType('Array')
+      .union(_.map([].concat(schema.items || {}), convertSchema));
   }
 
   switch (_.toLower(String(schema.type))) {

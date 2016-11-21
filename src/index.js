@@ -15,7 +15,7 @@ import {
   FlowSchema,
 } from './FlowSchema';
 
-type SchemaProcessor = (flowSchema: FlowSchema) => string;
+type SchemaProcessor = (flowSchema: FlowSchema) => Object;
 
 const upperCamelCase = (str: string): string => _.upperFirst(_.camelCase(str));
 
@@ -91,7 +91,7 @@ const toFlowType = (flowSchema: FlowSchema): Object => {
 
 
   if (flowSchema.$flowType === 'any') {
-    return t.anyTypeAnnotation()
+    return t.anyTypeAnnotation();
   }
 
   return t.createTypeAnnotationBasedOnTypeof(flowSchema.$flowType);
