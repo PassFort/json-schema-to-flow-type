@@ -1,6 +1,4 @@
 node_modules/
-flow-typed/npm
 lib/
-public/
 
 *.log

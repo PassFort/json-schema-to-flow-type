@@ -1,3 +1,5 @@
+// @flow
+
 import * as t from 'babel-types';
 import generate from 'babel-generator';
 import _ from 'lodash';
@@ -37,16 +39,15 @@ export const toFlow = (flowSchema: FlowSchema): Object =>
   );
 
 export const schemaToFlow = (flowSchema: FlowSchema): string =>
-  generate(
-    t.program([
+  _.map(
+    [
       ...(_.map(flowSchema.$definitions, toFlow)),
       toFlow(flowSchema),
-    ]),
-  ).code;
+    ],
+    (ast: Object): string => generate(ast).code,
+  ).join('\n\n');
 
-export const parseSchema = (
-  schema: Schema, imports: ?{ [key: string]: Schema },
-): string =>
+export const parseSchema = (schema: Schema, imports: ?{ [key: string]: Schema }): string =>
   _.flow(
     (s: Schema) => simplifySchema(s, imports),
     convertSchema,

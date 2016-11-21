@@ -1,12 +1,15 @@
 [ignore]
-.*/node_modules/.*
+.*/node_modules/ava/.*
 .*/lib/.*
+
 [include]
+
 [libs]
 ./flow-typed
 
 [options]
-all=true
+module.name_mapper='^definitions\/\(.*\)$' -> '<PROJECT_ROOT>/definitions/\1'
+module.name_mapper='^src\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
 
 module.system=haste
 

@@ -1,3 +1,5 @@
+// @flow
+
 import test from 'ava';
 import fse from 'fs-extra';
 import schemaJSON from './fixtures/schema.json';
@@ -7,7 +9,9 @@ import {
   parseSchema,
 } from '../index';
 
-const stringify = (str: string): string => `/* eslint-disable */
+const stringify = (str: string): string => `// @flow
+/* eslint-disable */
+
 ${str}
 `;
 

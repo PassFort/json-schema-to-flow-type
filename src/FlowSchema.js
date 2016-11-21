@@ -1,3 +1,5 @@
+// @flow
+
 import _ from 'lodash';
 
 import type {
@@ -115,9 +117,7 @@ export class FlowSchema {
 export const flow = (flowType: ?FlowType): FlowSchema =>
   (new FlowSchema({})).flowType(flowType || 'any');
 
-export const convertSchema = (
-  schema: Schema,
-): FlowSchema => {
+export const convertSchema = (schema: Schema): FlowSchema => {
   if (schema.$ref) {
     return flow().id(schema.id).flowRef(schema.$ref);
   }
@@ -160,6 +160,10 @@ export const convertSchema = (
 
   if (schema.anyOf) {
     return f.union(_.map(schema.anyOf, convertSchema));
+  }
+
+  if (isObject(schema) && isArray(schema)) {
+    return f.flowType('any');
   }
 
   if (isObject(schema)) {

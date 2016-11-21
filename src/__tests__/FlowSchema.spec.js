@@ -1,13 +1,13 @@
 // @flow
 
-import test, { AssertContext } from 'ava';
+import test from 'ava';
 
 import {
   convertSchema,
   flow,
 } from '../FlowSchema';
 
-test('should convert allOf', (t: AssertContext) => {
+test('should convert allOf', (t) => {
   t.deepEqual(
     convertSchema({
       id: 'AllOf',
@@ -22,7 +22,7 @@ test('should convert allOf', (t: AssertContext) => {
   );
 });
 
-test('should convert enum', (t: AssertContext) => {
+test('should convert enum', (t) => {
   t.deepEqual(
     convertSchema({
       id: 'Enum',
@@ -35,7 +35,7 @@ test('should convert enum', (t: AssertContext) => {
   );
 });
 
-test('should convert multi type', (t: AssertContext) => {
+test('should convert multi type', (t) => {
   t.deepEqual(
     convertSchema({
       type: ['string', 'number'],
@@ -48,7 +48,7 @@ test('should convert multi type', (t: AssertContext) => {
   );
 });
 
-test('should convert simple types', (t: AssertContext) => {
+test('should convert simple types', (t) => {
   t.deepEqual(
     convertSchema({
       id: 'String',
@@ -96,7 +96,7 @@ test('should convert simple types', (t: AssertContext) => {
 });
 
 
-test('should convert Object', (t: AssertContext) => {
+test('should convert Object', (t) => {
   t.deepEqual(
     convertSchema({
       type: 'object',
@@ -120,7 +120,7 @@ test('should convert Object', (t: AssertContext) => {
   );
 });
 
-test('should convert Object with additionalProps', (t: AssertContext) => {
+test('should convert Object with additionalProps', (t) => {
   t.deepEqual(
     convertSchema({
       type: 'object',
@@ -162,7 +162,7 @@ test('should convert Object with additionalProps', (t: AssertContext) => {
   );
 });
 
-test('should convert Array', (t: AssertContext) => {
+test('should convert Array', (t) => {
   t.deepEqual(
     convertSchema({
       type: 'array',

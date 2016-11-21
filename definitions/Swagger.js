@@ -8,33 +8,43 @@ export type Info = {
   license?: License;
   [key: any]: VendorExtension;
 };
+
 export type Contact = {
   name?: string;
   url?: string;
   email?: string;
   [key: any]: VendorExtension;
 };
+
 export type License = {
   name: string;
   url?: string;
   [key: any]: VendorExtension;
 };
+
 export type Paths = { [key: any]: VendorExtension | PathItem;
 };
+
 export type Definitions = { [key: any]: Schema;
 };
+
 export type ParameterDefinitions = { [key: any]: Parameter;
 };
+
 export type ResponseDefinitions = { [key: any]: Response;
 };
+
 export type ExternalDocs = {
   description?: string;
   url: string;
   [key: any]: VendorExtension;
 };
+
 export type Examples = { [key: any]: any;
 };
+
 export type MimeType = string;
+
 export type Operation = {
   tags?: Array<string>;
   summary?: string;
@@ -50,6 +60,7 @@ export type Operation = {
   security?: Security;
   [key: any]: VendorExtension;
 };
+
 export type PathItem = {
   $ref?: string;
   get?: Operation;
@@ -62,9 +73,12 @@ export type PathItem = {
   parameters?: ParametersList;
   [key: any]: VendorExtension;
 };
+
 export type Responses = { [key: any]: ResponseValue | VendorExtension;
 };
+
 export type ResponseValue = Response | JsonReference;
+
 export type Response = {
   description: string;
   schema?: Schema | FileSchema;
@@ -72,8 +86,10 @@ export type Response = {
   examples?: Examples;
   [key: any]: VendorExtension;
 };
+
 export type Headers = { [key: any]: Header;
 };
+
 export type Header = {
   type: "string" | "number" | "integer" | "boolean" | "array";
   format?: string;
@@ -95,8 +111,9 @@ export type Header = {
   description?: string;
   [key: any]: VendorExtension;
 };
-export type VendorExtension = { [key: any]: any;
-};
+
+export type VendorExtension = any;
+
 export type BodyParameter = {
   description?: string;
   name: string;
@@ -105,6 +122,7 @@ export type BodyParameter = {
   schema: Schema;
   [key: any]: VendorExtension;
 };
+
 export type HeaderParameterSubSchema = {
   required?: boolean;
   in?: "header";
@@ -129,6 +147,7 @@ export type HeaderParameterSubSchema = {
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
 };
+
 export type QueryParameterSubSchema = {
   required?: boolean;
   in?: "query";
@@ -154,6 +173,7 @@ export type QueryParameterSubSchema = {
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
 };
+
 export type FormDataParameterSubSchema = {
   required?: boolean;
   in?: "formData";
@@ -179,6 +199,7 @@ export type FormDataParameterSubSchema = {
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
 };
+
 export type PathParameterSubSchema = {
   required: true;
   in?: "path";
@@ -203,8 +224,11 @@ export type PathParameterSubSchema = {
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
 };
+
 export type NonBodyParameter = HeaderParameterSubSchema | FormDataParameterSubSchema | QueryParameterSubSchema | PathParameterSubSchema;
+
 export type Parameter = BodyParameter | NonBodyParameter;
+
 export type Schema = {
   $ref?: string;
   format?: string;
@@ -239,6 +263,7 @@ export type Schema = {
   example?: any;
   [key: any]: VendorExtension;
 };
+
 export type FileSchema = {
   format?: string;
   title?: string;
@@ -251,6 +276,7 @@ export type FileSchema = {
   example?: any;
   [key: any]: VendorExtension;
 };
+
 export type PrimitivesItems = {
   type?: "string" | "number" | "integer" | "boolean" | "array";
   format?: string;
@@ -271,9 +297,12 @@ export type PrimitivesItems = {
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
 };
+
 export type Security = Array<SecurityRequirement>;
+
 export type SecurityRequirement = { [key: any]: Array<string>;
 };
+
 export type Xml = {
   name?: string;
   namespace?: string;
@@ -282,19 +311,23 @@ export type Xml = {
   wrapped?: boolean;
   [key: any]: VendorExtension;
 };
+
 export type Tag = {
   name: string;
   description?: string;
   externalDocs?: ExternalDocs;
   [key: any]: VendorExtension;
 };
+
 export type SecurityDefinitions = { [key: any]: BasicAuthenticationSecurity | ApiKeySecurity | Oauth2ImplicitSecurity | Oauth2PasswordSecurity | Oauth2ApplicationSecurity | Oauth2AccessCodeSecurity;
 };
+
 export type BasicAuthenticationSecurity = {
   type: "basic";
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type ApiKeySecurity = {
   type: "apiKey";
   name: string;
@@ -302,6 +335,7 @@ export type ApiKeySecurity = {
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type Oauth2ImplicitSecurity = {
   type: "oauth2";
   flow: "implicit";
@@ -310,6 +344,7 @@ export type Oauth2ImplicitSecurity = {
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type Oauth2PasswordSecurity = {
   type: "oauth2";
   flow: "password";
@@ -318,6 +353,7 @@ export type Oauth2PasswordSecurity = {
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type Oauth2ApplicationSecurity = {
   type: "oauth2";
   flow: "application";
@@ -326,6 +362,7 @@ export type Oauth2ApplicationSecurity = {
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type Oauth2AccessCodeSecurity = {
   type: "oauth2";
   flow: "accessCode";
@@ -335,31 +372,54 @@ export type Oauth2AccessCodeSecurity = {
   description?: string;
   [key: any]: VendorExtension;
 };
+
 export type Oauth2Scopes = { [key: any]: string;
 };
+
 export type MediaTypeList = Array<MimeType>;
+
 export type ParametersList = Array<Parameter | JsonReference>;
+
 export type SchemesList = Array<"http" | "https" | "ws" | "wss">;
+
 export type CollectionFormat = "csv" | "ssv" | "tsv" | "pipes";
+
 export type CollectionFormatWithMulti = "csv" | "ssv" | "tsv" | "pipes" | "multi";
+
 export type Title = string;
+
 export type Description = string;
+
 export type Default = any;
+
 export type MultipleOf = number;
+
 export type Maximum = number;
+
 export type ExclusiveMaximum = boolean;
+
 export type Minimum = number;
+
 export type ExclusiveMinimum = boolean;
+
 export type MaxLength = number;
+
 export type MinLength = number;
+
 export type Pattern = string;
+
 export type MaxItems = number;
+
 export type MinItems = number;
+
 export type UniqueItems = boolean;
+
 export type Enum = Array<any>;
+
 export type JsonReference = {
   $ref: string;
 };
+
 export type Swagger = {
   swagger: "2.0";
   info: Info;

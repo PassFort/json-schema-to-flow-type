@@ -1,9 +1,14 @@
 /* eslint-disable */
 export type SchemaArray = Array<Schema>;
+
 export type PositiveInteger = number;
+
 export type PositiveIntegerDefault0 = PositiveInteger;
+
 export type SimpleTypes = "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
+
 export type StringArray = Array<string>;
+
 export type Schema = {
   id?: string;
   $ref?: string;
