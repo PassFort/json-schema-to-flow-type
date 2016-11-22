@@ -1,4 +1,6 @@
+// @flow
 /* eslint-disable */
+
 export type Info = {
   title: string;
   version: string;

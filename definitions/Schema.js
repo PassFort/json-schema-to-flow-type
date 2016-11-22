@@ -1,4 +1,6 @@
+// @flow
 /* eslint-disable */
+
 export type SchemaArray = Array<Schema>;
 
 export type PositiveInteger = number;
