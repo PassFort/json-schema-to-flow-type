@@ -41,5 +41,8 @@
     "url": "git@github.com:morlay/json-schema-to-flow-type.git",
     "type": "git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": "Morlay <morlay@qq.com>"
 }
