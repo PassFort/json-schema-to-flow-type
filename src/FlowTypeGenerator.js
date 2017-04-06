@@ -86,5 +86,9 @@ export const toFlowType = (flowSchema: FlowSchema): Object => {
     return t.anyTypeAnnotation();
   }
 
+  if (flowSchema.$flowType === 'null') {
+    return t.nullLiteralTypeAnnotation();
+  }
+
   return t.createTypeAnnotationBasedOnTypeof(flowSchema.$flowType);
 };
