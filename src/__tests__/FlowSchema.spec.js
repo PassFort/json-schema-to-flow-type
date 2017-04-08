@@ -30,16 +30,16 @@ test('should convert multiple　properties by allOf', (t) => {
         type: 'object',
         properties: {
           string: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       }, {
         type: 'object',
         properties: {
           number: {
-            type: 'number'
-          }
-        }
+            type: 'number',
+          },
+        },
       }],
     }),
 
