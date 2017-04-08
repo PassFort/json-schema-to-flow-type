@@ -125,7 +125,7 @@ export const convertSchema = (schema: Schema): FlowSchema => {
   if (schema.allOf) {
     const patchedSchema = _.reduce(
       schema.allOf,
-      (prev: Schema, item: Schema) => _.assign(prev, item),
+      (prev: Schema, item: Schema) => _.merge(prev, item),
       _.omit(schema, ['allOf', '$ref']),
     );
 
