@@ -22,6 +22,35 @@ test('should convert allOf', (t) => {
   );
 });
 
+test('should convert multiple　properties by allOf', (t) => {
+  t.deepEqual(
+    convertSchema({
+      id: 'AllOf',
+      allOf: [{
+        type: 'object',
+        properties: {
+          string: {
+            type: 'string',
+          },
+        },
+      }, {
+        type: 'object',
+        properties: {
+          number: {
+            type: 'number',
+          },
+        },
+      }],
+    }),
+
+    flow('Object')
+      .props({
+        string: flow('string'),
+        number: flow('number'),
+      }).id('AllOf'),
+  );
+});
+
 test('should convert enum', (t) => {
   t.deepEqual(
     convertSchema({
