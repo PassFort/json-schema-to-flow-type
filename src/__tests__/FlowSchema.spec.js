@@ -51,6 +51,30 @@ test('should convert multiple　properties by allOf', (t) => {
   );
 });
 
+test('should error if allOf schemas not compatible', (t) => {
+  const error = t.throws(() =>
+    convertSchema({
+      id: 'AllOf',
+      allOf: [{
+        type: 'object',
+        properties: {
+          test: {
+            type: 'string',
+          },
+        },
+      }, {
+        type: 'object',
+        properties: {
+          test: {
+            type: 'number',
+          },
+        },
+      }],
+    }),
+  );
+  t.is(error.message, 'Failed to merge "allOf" schemas because "type" has different values: "string" and "number".');
+});
+
 test('should convert enum', (t) => {
   t.deepEqual(
     convertSchema({

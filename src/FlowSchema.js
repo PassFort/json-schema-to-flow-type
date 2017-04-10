@@ -1,6 +1,7 @@
 // @flow
 
 import _ from 'lodash';
+import assert from 'assert';
 
 import type {
   Schema,
@@ -123,11 +124,23 @@ export const convertSchema = (schema: Schema): FlowSchema => {
   }
 
   if (schema.allOf) {
-    const patchedSchema = _.reduce(
-      schema.allOf,
-      (prev: Schema, item: Schema) => _.merge(prev, item),
-      _.omit(schema, ['allOf', '$ref']),
-    );
+    const patchedSchema = _.reduce(schema.allOf, (prev: Schema, item: Schema) =>
+      _.mergeWith(prev, item, (mergedValue: any, newValue: any, key: string): any => {
+        if (_.isNil(mergedValue)) {
+          return;
+        }
+        if (key === '$required') {
+          return _.uniq(mergedValue.concat(newValue)); // eslint-disable-line consistent-return
+        }
+        if (_.isPlainObject(mergedValue)) {
+          if (!_.isPlainObject(newValue)) {
+            throw new Error(`Failed to merge "allOf" schemas because "${key}" has different values.`);
+          }
+          return;
+        }
+        assert.deepEqual(mergedValue, newValue, `Failed to merge "allOf" schemas because "${key}" has different values: ${JSON.stringify(mergedValue)} and ${JSON.stringify(newValue)}.`);
+      })
+    , _.omit(schema, ['allOf', '$ref']));
 
     return convertSchema(patchedSchema);
   }

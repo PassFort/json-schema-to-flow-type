@@ -15,16 +15,17 @@ const stringify = (str: string): string => `// @flow
 ${str}
 `;
 
-test('convert schema json', () => {
+test('convert schema json', (t) => {
   const result = parseSchema({
     ...schemaJSON,
     id: 'Schema',
   });
 
   fse.outputFileSync('./definitions/Schema.js', stringify(result));
+  t.pass('coverts json schema');
 });
 
-test('convert swagger json', () => {
+test('convert swagger json', (t) => {
   const result = parseSchema({
     ...swaggerJSON,
     id: 'Swagger',
@@ -33,4 +34,5 @@ test('convert swagger json', () => {
   });
 
   fse.outputFileSync('./definitions/Swagger.js', stringify(result));
+  t.pass('coverts swagger schema');
 });
