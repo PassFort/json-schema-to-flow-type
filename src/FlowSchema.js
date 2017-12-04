@@ -8,7 +8,7 @@ import type {
   SimpleTypes,
 } from '../definitions/Schema';
 
-type FlowType = 'Object' | 'Array' | 'string' | 'number' | 'boolean' | 'null' | 'any' | 'void';
+type FlowType = 'Object' | 'Array' | 'string' | 'number' | 'boolean' | 'Date' | 'null' | 'any' | 'void';
 
 const hasProps = (schema: Schema, props: Array<string>): boolean =>
   _.reduce(props, (result: boolean, prop: string) => result || _.has(schema, prop), false);
@@ -202,6 +202,8 @@ export const convertSchema = (schema: Schema): FlowSchema => {
       return f.flowType('number');
     case 'boolean':
       return f.flowType('boolean');
+    case 'date':
+      return f.flowType('Date');
     case 'null':
       return f.flowType('null');
     default:
