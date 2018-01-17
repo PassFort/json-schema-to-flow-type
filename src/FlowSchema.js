@@ -129,7 +129,7 @@ export const convertSchema = (schema: Schema): FlowSchema => {
         if (_.isNil(mergedValue)) {
           return;
         }
-        if (key === '$required') {
+        if (key === 'required') {
           return _.uniq(mergedValue.concat(newValue)); // eslint-disable-line consistent-return
         }
         if (_.isPlainObject(mergedValue)) {

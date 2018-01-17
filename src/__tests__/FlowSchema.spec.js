@@ -75,6 +75,39 @@ test('should error if allOf schemas not compatible', (t) => {
   t.is(error.message, 'Failed to merge "allOf" schemas because "type" has different values: "string" and "number".');
 });
 
+test('should merge required properties of allOf', (t) => {
+  t.deepEqual(
+    convertSchema({
+      id: 'AllOf',
+      allOf: [{
+        type: 'object',
+        properties: {
+          string: {
+            type: 'string',
+          },
+        },
+        required: ['string'],
+      }, {
+        type: 'object',
+        properties: {
+          number: {
+            type: 'number',
+          },
+        },
+        required: ['number'],
+      }],
+    }),
+
+    flow('Object')
+      .props({
+        string: flow('string'),
+        number: flow('number'),
+      },
+      ['string', 'number'])
+      .id('AllOf'),
+  );
+});
+
 test('should convert enum', (t) => {
   t.deepEqual(
     convertSchema({
