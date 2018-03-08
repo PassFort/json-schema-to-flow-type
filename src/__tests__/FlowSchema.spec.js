@@ -22,7 +22,45 @@ test('should convert allOf', (t) => {
   );
 });
 
-test('should convert multiple　properties by allOf', (t) => {
+test('should convert oneOf', t => {
+  t.deepEqual(
+    convertSchema({
+      id: 'OneOf',
+      properties: {
+        foo: {
+          type: 'string',
+        },
+      },
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            string: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            number: {
+              type: 'number',
+            },
+          },
+        },
+      ],
+    }),
+
+    flow('any')
+    .union([
+      flow('Object').props({ foo: flow('string'), string: flow('string') }),
+      flow('Object').props({ foo: flow('string'), number: flow('number') }),
+    ])
+    .id('OneOf'),
+  );
+});
+
+test('should convert multiple properties by allOf', t => {
   t.deepEqual(
     convertSchema({
       id: 'AllOf',
