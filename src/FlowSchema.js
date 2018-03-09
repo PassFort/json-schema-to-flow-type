@@ -180,7 +180,16 @@ export const convertSchema = (schema: Schema): FlowSchema => {
     return f.union(_.map(schema.oneOf, convertSchema));
   }
 
-  if (schema.anyOf) {
+  if (schema.anyOf && schema.properties) {
+    const oneOfs = _.map(schema.anyOf, anyOf => ({
+      ...anyOf,
+      properties: {
+        ...schema.properties,
+        ...anyOf.properties,
+      },
+    }));
+    return f.union(_.map(oneOfs, convertSchema));
+  } else if (schema.anyOf) {
     return f.union(_.map(schema.anyOf, convertSchema));
   }
 
