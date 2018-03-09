@@ -6,12 +6,17 @@ export type SchemaArray = Array<Schema>;
 export type Inheritance = {
   key1?: string;
   key2?: string;
-  key3?: any;
+  key3?: string;
 } | {
   key1?: string;
   key2?: string;
-  key4?: any;
+  key4?: string;
 };
+
+export type Exact = {|
+  key1?: string;
+  key2?: string;
+|};
 
 export type PositiveInteger = number;
 
