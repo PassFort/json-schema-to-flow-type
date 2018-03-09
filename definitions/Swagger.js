@@ -1,7 +1,22 @@
 // @flow
 /* eslint-disable */
 
-export type Info = {
+export type Inheritance = {
+  key1?: string;
+  key2?: string;
+  key3?: string;
+} | {
+  key1?: string;
+  key2?: string;
+  key4?: string;
+};
+
+export type Exact = {|
+  key1?: string;
+  key2?: string;
+|};
+
+export type Info = {|
   title: string;
   version: string;
   description?: string;
@@ -9,23 +24,23 @@ export type Info = {
   contact?: Contact;
   license?: License;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Contact = {
+export type Contact = {|
   name?: string;
   url?: string;
   email?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type License = {
+export type License = {|
   name: string;
   url?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Paths = { [key: any]: VendorExtension | PathItem;
-};
+export type Paths = {| [key: any]: VendorExtension | PathItem;
+|};
 
 export type Definitions = { [key: any]: Schema;
 };
@@ -36,18 +51,18 @@ export type ParameterDefinitions = { [key: any]: Parameter;
 export type ResponseDefinitions = { [key: any]: Response;
 };
 
-export type ExternalDocs = {
+export type ExternalDocs = {|
   description?: string;
   url: string;
   [key: any]: VendorExtension;
-};
+|};
 
 export type Examples = { [key: any]: any;
 };
 
 export type MimeType = string;
 
-export type Operation = {
+export type Operation = {|
   tags?: Array<string>;
   summary?: string;
   description?: string;
@@ -61,9 +76,9 @@ export type Operation = {
   deprecated?: boolean;
   security?: Security;
   [key: any]: VendorExtension;
-};
+|};
 
-export type PathItem = {
+export type PathItem = {|
   $ref?: string;
   get?: Operation;
   put?: Operation;
@@ -74,25 +89,25 @@ export type PathItem = {
   patch?: Operation;
   parameters?: ParametersList;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Responses = { [key: any]: ResponseValue | VendorExtension;
-};
+export type Responses = {| [key: any]: ResponseValue | VendorExtension;
+|};
 
 export type ResponseValue = Response | JsonReference;
 
-export type Response = {
+export type Response = {|
   description: string;
   schema?: Schema | FileSchema;
   headers?: Headers;
   examples?: Examples;
   [key: any]: VendorExtension;
-};
+|};
 
 export type Headers = { [key: any]: Header;
 };
 
-export type Header = {
+export type Header = {|
   type: "string" | "number" | "integer" | "boolean" | "array";
   format?: string;
   items?: PrimitivesItems;
@@ -112,20 +127,20 @@ export type Header = {
   multipleOf?: MultipleOf;
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
 export type VendorExtension = any;
 
-export type BodyParameter = {
+export type BodyParameter = {|
   description?: string;
   name: string;
   in: "body";
   required?: boolean;
   schema: Schema;
   [key: any]: VendorExtension;
-};
+|};
 
-export type HeaderParameterSubSchema = {
+export type HeaderParameterSubSchema = {|
   required?: boolean;
   in?: "header";
   description?: string;
@@ -148,9 +163,9 @@ export type HeaderParameterSubSchema = {
   enum?: Enum;
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
-};
+|};
 
-export type QueryParameterSubSchema = {
+export type QueryParameterSubSchema = {|
   required?: boolean;
   in?: "query";
   description?: string;
@@ -174,9 +189,9 @@ export type QueryParameterSubSchema = {
   enum?: Enum;
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
-};
+|};
 
-export type FormDataParameterSubSchema = {
+export type FormDataParameterSubSchema = {|
   required?: boolean;
   in?: "formData";
   description?: string;
@@ -200,9 +215,9 @@ export type FormDataParameterSubSchema = {
   enum?: Enum;
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
-};
+|};
 
-export type PathParameterSubSchema = {
+export type PathParameterSubSchema = {|
   required: true;
   in?: "path";
   description?: string;
@@ -225,13 +240,13 @@ export type PathParameterSubSchema = {
   enum?: Enum;
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
-};
+|};
 
 export type NonBodyParameter = HeaderParameterSubSchema | FormDataParameterSubSchema | QueryParameterSubSchema | PathParameterSubSchema;
 
 export type Parameter = BodyParameter | NonBodyParameter;
 
-export type Schema = {
+export type Schema = {|
   $ref?: string;
   format?: string;
   title?: string;
@@ -264,9 +279,9 @@ export type Schema = {
   externalDocs?: ExternalDocs;
   example?: any;
   [key: any]: VendorExtension;
-};
+|};
 
-export type FileSchema = {
+export type FileSchema = {|
   format?: string;
   title?: string;
   description?: string;
@@ -277,9 +292,9 @@ export type FileSchema = {
   externalDocs?: ExternalDocs;
   example?: any;
   [key: any]: VendorExtension;
-};
+|};
 
-export type PrimitivesItems = {
+export type PrimitivesItems = {|
   type?: "string" | "number" | "integer" | "boolean" | "array";
   format?: string;
   items?: PrimitivesItems;
@@ -298,74 +313,74 @@ export type PrimitivesItems = {
   enum?: Enum;
   multipleOf?: MultipleOf;
   [key: any]: VendorExtension;
-};
+|};
 
 export type Security = Array<SecurityRequirement>;
 
 export type SecurityRequirement = { [key: any]: Array<string>;
 };
 
-export type Xml = {
+export type Xml = {|
   name?: string;
   namespace?: string;
   prefix?: string;
   attribute?: boolean;
   wrapped?: boolean;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Tag = {
+export type Tag = {|
   name: string;
   description?: string;
   externalDocs?: ExternalDocs;
   [key: any]: VendorExtension;
-};
+|};
 
 export type SecurityDefinitions = { [key: any]: BasicAuthenticationSecurity | ApiKeySecurity | Oauth2ImplicitSecurity | Oauth2PasswordSecurity | Oauth2ApplicationSecurity | Oauth2AccessCodeSecurity;
 };
 
-export type BasicAuthenticationSecurity = {
+export type BasicAuthenticationSecurity = {|
   type: "basic";
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type ApiKeySecurity = {
+export type ApiKeySecurity = {|
   type: "apiKey";
   name: string;
   in: "header" | "query";
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Oauth2ImplicitSecurity = {
+export type Oauth2ImplicitSecurity = {|
   type: "oauth2";
   flow: "implicit";
   scopes?: Oauth2Scopes;
   authorizationUrl: string;
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Oauth2PasswordSecurity = {
+export type Oauth2PasswordSecurity = {|
   type: "oauth2";
   flow: "password";
   scopes?: Oauth2Scopes;
   tokenUrl: string;
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Oauth2ApplicationSecurity = {
+export type Oauth2ApplicationSecurity = {|
   type: "oauth2";
   flow: "application";
   scopes?: Oauth2Scopes;
   tokenUrl: string;
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
-export type Oauth2AccessCodeSecurity = {
+export type Oauth2AccessCodeSecurity = {|
   type: "oauth2";
   flow: "accessCode";
   scopes?: Oauth2Scopes;
@@ -373,7 +388,7 @@ export type Oauth2AccessCodeSecurity = {
   tokenUrl: string;
   description?: string;
   [key: any]: VendorExtension;
-};
+|};
 
 export type Oauth2Scopes = { [key: any]: string;
 };
@@ -418,11 +433,11 @@ export type UniqueItems = boolean;
 
 export type Enum = Array<any>;
 
-export type JsonReference = {
+export type JsonReference = {|
   $ref: string;
-};
+|};
 
-export type Swagger = {
+export type Swagger = {|
   swagger: "2.0";
   info: Info;
   host?: string;
@@ -439,4 +454,4 @@ export type Swagger = {
   tags?: Array<Tag>;
   externalDocs?: ExternalDocs;
   [key: any]: VendorExtension;
-};
+|};

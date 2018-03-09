@@ -1,6 +1,6 @@
 {
-  "name": "json-schema-to-flow-type",
-  "version": "0.2.6",
+  "name": "@passfort/json-to-flow",
+  "version": "2.0.0",
   "ava": {
     "files": [
       "**/__tests__/*.spec.js"
@@ -23,13 +23,13 @@
     "babel-cli": "6.18.x",
     "babel-core": "6.18.x",
     "eslint": "3.10.x",
-    "flow-bin": "0.35.x",
-    "flow-typed": "2.0.x",
+    "flow-bin": "^0.67.1",
+    "flow-typed": "^2.3.0",
     "fs-extra": "1.0.0"
   },
   "dependencies": {
-    "babel-generator": "6.19.0",
-    "babel-types": "6.19.0",
+    "@babel/generator": "^7.0.0-beta.40",
+    "@babel/types": "^7.0.0-beta.40",
     "lodash": "4.17.x"
   },
   "main": "lib/index.js",

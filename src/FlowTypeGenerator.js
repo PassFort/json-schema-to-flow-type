@@ -1,7 +1,7 @@
 // @flow
 
 import _ from 'lodash';
-import * as t from 'babel-types';
+import * as t from '@babel/types';
 
 import {
   FlowSchema,
@@ -39,6 +39,7 @@ const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor)
     },
   );
 
+
   return t.objectTypeAnnotation(
     properties,
     flowSchema.$union ? [
@@ -48,19 +49,21 @@ const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor)
         processor(flowSchema.flowType('any')),
       ),
     ] : null,
+    null,
+    !!flowSchema.$exact,
   );
 };
 
 export const toFlowType = (flowSchema: FlowSchema): Object => {
   if (flowSchema.$flowRef) {
-    return t.identifier(upperCamelCase(flowSchema.$flowRef));
+    return t.genericTypeAnnotation(t.identifier(upperCamelCase(flowSchema.$flowRef)));
   }
 
   if (flowSchema.$enum) {
-    return t.createUnionTypeAnnotation(
+    return t.unionTypeAnnotation(
       _.map(
         flowSchema.$enum,
-        (value) => t.identifier(JSON.stringify(value)),
+        (value) => t.genericTypeAnnotation(t.identifier(JSON.stringify(value))),
       ),
     );
   }
