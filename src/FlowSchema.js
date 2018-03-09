@@ -39,6 +39,7 @@ export class FlowSchema {
   $union: ?Array<FlowSchema>;
   $intersection: ?Array<FlowSchema>;
   $definitions: { [key: string]: FlowSchema };
+  $exact: ?boolean
 
   static omitUndefined = (arr: Array<any>): Array<any> =>
     _.filter(arr, (item: any): any => !_.isUndefined(item));
@@ -56,6 +57,7 @@ export class FlowSchema {
     // only for Object
     this.$properties = flowSchema.$properties;
     this.$required = flowSchema.$required;
+    this.$exact = flowSchema.$exact;
   }
 
   $set(key: string, value: any) {
@@ -112,6 +114,10 @@ export class FlowSchema {
       return this;
     }
     return this.$set('$intersection', finalFlowSchemas);
+  }
+
+  setExact(isExact: boolean): FlowSchema {
+    return this.$set('$exact', isExact);
   }
 }
 
@@ -198,13 +204,19 @@ export const convertSchema = (schema: Schema): FlowSchema => {
   }
 
   if (isObject(schema)) {
-    return f.flowType('Object')
+    let objectType = f.flowType('Object')
       .props(_.mapValues(schema.properties, convertSchema), schema.required)
       .union([
         ...(_.map(schema.patternProperties, convertSchema)),
         (typeof schema.additionalProperties === 'object') ? convertSchema(schema.additionalProperties) : undefined,
         (typeof schema.additionalProperties === 'boolean' && schema.additionalProperties) ? convertSchema({}) : undefined,
       ]);
+
+    if (schema.additionalProperties != null) {
+      objectType = objectType.setExact(schema.additionalProperties === false);
+    }
+
+    return objectType;
   }
 
   if (isArray(schema)) {

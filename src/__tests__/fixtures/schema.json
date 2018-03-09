@@ -10,6 +10,40 @@
         "$ref": "#"
       }
     },
+    "inheritance": {
+      "properties": {
+        "key1": {
+          "type": "string"
+        },
+        "key2": {
+          "type": "string"
+        }
+      },
+      "anyOf": [{
+        "properties": {
+          "key3": {
+            "type": "string"
+          }
+        }
+      }, {
+        "properties": {
+          "key4": {
+            "type": "string"
+          }
+        }
+      }]
+    },
+    "exact": {
+      "properties": {
+        "key1": {
+          "type": "string"
+        },
+        "key2": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "positiveInteger": {
       "type": "integer",
       "minimum": 0
