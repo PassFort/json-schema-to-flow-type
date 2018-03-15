@@ -3,16 +3,6 @@
 
 export type SchemaArray = Array<Schema>;
 
-export type Inheritance = {
-  key1?: string;
-  key2?: string;
-  key3?: any;
-} | {
-  key1?: string;
-  key2?: string;
-  key4?: any;
-};
-
 export type PositiveInteger = number;
 
 export type PositiveIntegerDefault0 = PositiveInteger;

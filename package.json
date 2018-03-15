@@ -23,8 +23,8 @@
     "babel-cli": "6.18.x",
     "babel-core": "6.18.x",
     "eslint": "3.10.x",
-    "flow-bin": "0.35.x",
-    "flow-typed": "2.0.x",
+    "flow-bin": "^0.67.1",
+    "flow-typed": "^2.3.0",
     "fs-extra": "1.0.0"
   },
   "dependencies": {

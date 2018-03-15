@@ -1,16 +1,6 @@
 // @flow
 /* eslint-disable */
 
-export type Inheritance = {
-  key1?: string;
-  key2?: string;
-  key3?: any;
-} | {
-  key1?: string;
-  key2?: string;
-  key4?: any;
-};
-
 export type Info = {
   title: string;
   version: string;
