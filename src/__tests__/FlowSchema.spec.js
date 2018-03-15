@@ -211,6 +211,15 @@ test('should convert simple types', (t) => {
 
   t.deepEqual(
     convertSchema({
+      id: 'Date',
+      type: 'date',
+    }),
+    flow('Date')
+      .id('Date'),
+  );
+
+  t.deepEqual(
+    convertSchema({
       id: 'Null',
       type: 'null',
     }),

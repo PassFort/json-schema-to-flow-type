@@ -81,6 +81,9 @@ export const toFlowType = (flowSchema: FlowSchema): Object => {
     return t.intersectionTypeAnnotation(_.map(flowSchema.$intersection, toFlowType));
   }
 
+  if (flowSchema.$flowType === 'Date') {
+    return t.genericTypeAnnotation(t.identifier('Date'));
+  }
 
   if (flowSchema.$flowType === 'any') {
     return t.anyTypeAnnotation();
