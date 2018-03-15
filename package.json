@@ -1,6 +1,6 @@
 {
   "name": "json-schema-to-flow-type",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "ava": {
     "files": [
       "**/__tests__/*.spec.js"
