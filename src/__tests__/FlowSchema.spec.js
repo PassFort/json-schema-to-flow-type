@@ -1,302 +1,336 @@
 // @flow
 
-import test from 'ava';
+import {convertSchema, flow} from '../FlowSchema'
 
-import {
-  convertSchema,
-  flow,
-} from '../FlowSchema';
+test('should convert allOf', () => {
+    expect(
+        convertSchema({
+            id: 'AllOf',
+            allOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    default: 0
+                }
+            ]
+        })
+    ).toEqual(flow('string').id('AllOf'))
+})
 
-test('should convert allOf', (t) => {
-  t.deepEqual(
-    convertSchema({
-      id: 'AllOf',
-      allOf: [{
-        type: 'string',
-      }, {
-        default: 0,
-      }],
-    }),
-    flow('string')
-      .id('AllOf'),
-  );
-});
-
-test('should convert oneOf', t => {
-  t.deepEqual(
-    convertSchema({
-      id: 'OneOf',
-      properties: {
-        foo: {
-          type: 'string',
-        },
-      },
-      oneOf: [
-        {
-          type: 'object',
-          properties: {
-            string: {
-              type: 'string',
+test('should convert oneOf', () => {
+    expect(
+        convertSchema({
+            id: 'OneOf',
+            properties: {
+                foo: {
+                    type: 'string'
+                }
             },
-          },
-        },
-        {
-          type: 'object',
-          properties: {
-            number: {
-              type: 'number',
+            oneOf: [
+                {
+                    type: 'object',
+                    properties: {
+                        string: {
+                            type: 'string'
+                        }
+                    }
+                },
+                {
+                    type: 'object',
+                    properties: {
+                        number: {
+                            type: 'number'
+                        }
+                    }
+                }
+            ]
+        })
+    ).toEqual(
+        flow('any')
+            .union([
+                flow('Object').props({
+                    foo: flow('string'),
+                    string: flow('string')
+                }),
+                flow('Object').props({
+                    foo: flow('string'),
+                    number: flow('number')
+                })
+            ])
+            .id('OneOf')
+    )
+})
+
+test('should convert multiple properties by allOf', () => {
+    expect(
+        convertSchema({
+            id: 'AllOf',
+            allOf: [
+                {
+                    type: 'object',
+                    properties: {
+                        string: {
+                            type: 'string'
+                        }
+                    }
+                },
+                {
+                    type: 'object',
+                    properties: {
+                        number: {
+                            type: 'number'
+                        }
+                    }
+                }
+            ]
+        })
+    ).toEqual(
+        flow('Object')
+            .props({
+                string: flow('string'),
+                number: flow('number')
+            })
+            .id('AllOf')
+    )
+})
+
+test('should convert exact object', () => {
+    expect(
+        convertSchema({
+            id: 'Exact',
+            properties: {
+                number: {
+                    type: 'number'
+                },
+                string: {
+                    type: 'string'
+                }
             },
-          },
-        },
-      ],
-    }),
+            additionalProperties: false
+        })
+    ).toEqual(
+        flow('Object')
+            .props({
+                string: flow('string'),
+                number: flow('number')
+            })
+            .id('Exact')
+            .setExact(true)
+    )
+})
 
-    flow('any')
-    .union([
-      flow('Object').props({ foo: flow('string'), string: flow('string') }),
-      flow('Object').props({ foo: flow('string'), number: flow('number') }),
-    ])
-    .id('OneOf'),
-  );
-});
+test('should error if allOf schemas not compatible', () => {
+    const error = expect(() =>
+        convertSchema({
+            id: 'AllOf',
+            allOf: [
+                {
+                    type: 'object',
+                    properties: {
+                        test: {
+                            type: 'string'
+                        }
+                    }
+                },
+                {
+                    type: 'object',
+                    properties: {
+                        test: {
+                            type: 'number'
+                        }
+                    }
+                }
+            ]
+        })
+    ).toThrow()
+})
 
-test('should convert multiple properties by allOf', t => {
-  t.deepEqual(
-    convertSchema({
-      id: 'AllOf',
-      allOf: [{
-        type: 'object',
-        properties: {
-          string: {
+test('should merge required properties of allOf', () => {
+    expect(
+        convertSchema({
+            id: 'AllOf',
+            allOf: [
+                {
+                    type: 'object',
+                    properties: {
+                        string: {
+                            type: 'string'
+                        }
+                    },
+                    required: ['string']
+                },
+                {
+                    type: 'object',
+                    properties: {
+                        number: {
+                            type: 'number'
+                        }
+                    },
+                    required: ['number']
+                }
+            ]
+        })
+    ).toEqual(
+        flow('Object')
+            .props(
+                {
+                    string: flow('string'),
+                    number: flow('number')
+                },
+                ['string', 'number']
+            )
+            .id('AllOf')
+    )
+})
+
+test('should convert enum', () => {
+    expect(
+        convertSchema({
+            id: 'Enum',
             type: 'string',
-          },
-        },
-      }, {
-        type: 'object',
-        properties: {
-          number: {
-            type: 'number',
-          },
-        },
-      }],
-    }),
+            enum: ['1', '2', '3']
+        })
+    ).toEqual(
+        flow('string')
+            .id('Enum')
+            .enum(['1', '2', '3'])
+    )
+})
 
-    flow('Object')
-      .props({
-        string: flow('string'),
-        number: flow('number'),
-      }).id('AllOf'),
-  );
-});
-
-test('should error if allOf schemas not compatible', (t) => {
-  const error = t.throws(() =>
-    convertSchema({
-      id: 'AllOf',
-      allOf: [{
-        type: 'object',
-        properties: {
-          test: {
+test('should convert enum', () => {
+    expect(
+        convertSchema({
+            id: 'Enum',
             type: 'string',
-          },
-        },
-      }, {
-        type: 'object',
-        properties: {
-          test: {
-            type: 'number',
-          },
-        },
-      }],
-    }),
-  );
-  t.is(error.message, 'Failed to merge "allOf" schemas because "type" has different values: "string" and "number".');
-});
+            enum: ['1', '2', '3']
+        })
+    ).toEqual(
+        flow('string')
+            .id('Enum')
+            .enum(['1', '2', '3'])
+    )
+})
 
-test('should merge required properties of allOf', (t) => {
-  t.deepEqual(
-    convertSchema({
-      id: 'AllOf',
-      allOf: [{
-        type: 'object',
-        properties: {
-          string: {
-            type: 'string',
-          },
-        },
-        required: ['string'],
-      }, {
-        type: 'object',
-        properties: {
-          number: {
-            type: 'number',
-          },
-        },
-        required: ['number'],
-      }],
-    }),
+test('should convert multi type', () => {
+    expect(
+        convertSchema({
+            type: ['string', 'number']
+        })
+    ).toEqual(flow().union([flow('string'), flow('number')]))
+})
 
-    flow('Object')
-      .props({
-        string: flow('string'),
-        number: flow('number'),
-      },
-      ['string', 'number'])
-      .id('AllOf'),
-  );
-});
+test('should convert simple types', () => {
+    expect(
+        convertSchema({
+            id: 'String',
+            type: 'string'
+        })
+    ).toEqual(flow('string').id('String'))
 
-test('should convert enum', (t) => {
-  t.deepEqual(
-    convertSchema({
-      id: 'Enum',
-      type: 'string',
-      enum: ['1', '2', '3'],
-    }),
-    flow('string')
-      .id('Enum')
-      .enum(['1', '2', '3']),
-  );
-});
+    expect(
+        convertSchema({
+            id: 'Number',
+            type: 'number'
+        })
+    ).toEqual(flow('number').id('Number'))
 
-test('should convert multi type', (t) => {
-  t.deepEqual(
-    convertSchema({
-      type: ['string', 'number'],
-    }),
-    flow()
-      .union([
-        flow('string'),
-        flow('number'),
-      ]),
-  );
-});
+    expect(
+        convertSchema({
+            id: 'Integer',
+            type: 'integer'
+        })
+    ).toEqual(flow('number').id('Integer'))
 
-test('should convert simple types', (t) => {
-  t.deepEqual(
-    convertSchema({
-      id: 'String',
-      type: 'string',
-    }),
-    flow('string')
-      .id('String'),
-  );
+    expect(
+        convertSchema({
+            id: 'Boolean',
+            type: 'boolean'
+        })
+    ).toEqual(flow('boolean').id('Boolean'))
 
-  t.deepEqual(
-    convertSchema({
-      id: 'Number',
-      type: 'number',
-    }),
-    flow('number')
-      .id('Number'),
-  );
+    expect(
+        convertSchema({
+            id: 'Null',
+            type: 'null'
+        })
+    ).toEqual(flow('null').id('Null'))
+})
 
-  t.deepEqual(
-    convertSchema({
-      id: 'Integer',
-      type: 'integer',
-    }),
-    flow('number')
-      .id('Integer'),
-  );
+test('should convert Object', () => {
+    expect(
+        convertSchema({
+            type: 'object',
+            properties: {
+                string: {
+                    type: 'string'
+                },
+                number: {
+                    type: 'number'
+                }
+            },
+            required: ['string']
+        })
+    ).toEqual(
+        flow('Object').props(
+            {
+                string: flow('string'),
+                number: flow('number')
+            },
+            ['string']
+        )
+    )
+})
 
-  t.deepEqual(
-    convertSchema({
-      id: 'Boolean',
-      type: 'boolean',
-    }),
-    flow('boolean')
-      .id('Boolean'),
-  );
+test('should convert Object with additionalProps', () => {
+    expect(
+        convertSchema({
+            type: 'object',
+            properties: {
+                string: {
+                    type: 'string'
+                }
+            },
+            additionalProperties: true
+        })
+    ).toEqual(
+        flow('Object')
+            .props({
+                string: flow('string')
+            })
+            .union([flow()])
+            .setExact(false)
+    )
 
-  t.deepEqual(
-    convertSchema({
-      id: 'Null',
-      type: 'null',
-    }),
-    flow('null')
-      .id('Null'),
-  );
-});
+    expect(
+        convertSchema({
+            type: 'object',
+            properties: {
+                string: {
+                    type: 'string'
+                }
+            },
+            additionalProperties: {
+                type: 'string'
+            }
+        })
+    ).toEqual(
+        flow('Object')
+            .props({
+                string: flow('string')
+            })
+            .union([flow('string')])
+            .setExact(false)
+    )
+})
 
-
-test('should convert Object', (t) => {
-  t.deepEqual(
-    convertSchema({
-      type: 'object',
-      properties: {
-        string: {
-          type: 'string',
-        },
-        number: {
-          type: 'number',
-        },
-      },
-      required: ['string'],
-    }),
-    flow('Object')
-      .props({
-        string: flow('string'),
-        number: flow('number'),
-      }, [
-        'string',
-      ]),
-  );
-});
-
-test('should convert Object with additionalProps', (t) => {
-  t.deepEqual(
-    convertSchema({
-      type: 'object',
-      properties: {
-        string: {
-          type: 'string',
-        },
-      },
-      additionalProperties: true,
-    }),
-    flow('Object')
-      .props({
-        string: flow('string'),
-      })
-      .union([
-        flow(),
-      ]),
-  );
-
-  t.deepEqual(
-    convertSchema({
-      type: 'object',
-      properties: {
-        string: {
-          type: 'string',
-        },
-      },
-      additionalProperties: {
-        type: 'string',
-      },
-    }),
-    flow('Object')
-      .props({
-        string: flow('string'),
-      })
-      .union([
-        flow('string'),
-      ]),
-  );
-});
-
-test('should convert Array', (t) => {
-  t.deepEqual(
-    convertSchema({
-      type: 'array',
-      items: {
-        type: 'string',
-      },
-    }),
-    flow('Array')
-      .union([
-        flow('string'),
-      ]),
-  );
-});
+test('should convert Array', () => {
+    expect(
+        convertSchema({
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        })
+    ).toEqual(flow('Array').union([flow('string')]))
+})
