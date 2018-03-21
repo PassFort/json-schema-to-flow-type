@@ -1,1 +1,4 @@
-extends: "@morlay/eslint-config"
+{
+  "extends": ["eslint:recommended"],
+  "parser": "babel-eslint"
+}
