@@ -89,6 +89,31 @@ test('should convert multiple properties by allOf', t => {
   );
 });
 
+test('should convert exact object', t => {
+  t.deepEqual(
+    convertSchema({
+      id: 'Exact',
+      properties: {
+        number: {
+          type: 'number',
+        },
+        string: {
+          type: 'string',
+        },
+      },
+      additionalProperties: false,
+    }),
+    flow('Object')
+      .props({
+        string: flow('string'),
+        number: flow('number'),
+      })
+      .id('Exact')
+      .setExact(true),
+  );
+});
+
+
 test('should error if allOf schemas not compatible', (t) => {
   const error = t.throws(() =>
     convertSchema({
@@ -261,7 +286,8 @@ test('should convert Object with additionalProps', (t) => {
       })
       .union([
         flow(),
-      ]),
+      ])
+      .setExact(false),
   );
 
   t.deepEqual(
@@ -282,7 +308,8 @@ test('should convert Object with additionalProps', (t) => {
       })
       .union([
         flow('string'),
-      ]),
+      ])
+      .setExact(false),
   );
 });
 
