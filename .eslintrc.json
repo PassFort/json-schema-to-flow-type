@@ -1,0 +1,4 @@
+{
+  "presets": ["eslint:recommended"],
+  "parser": "babel-eslint"
+}
