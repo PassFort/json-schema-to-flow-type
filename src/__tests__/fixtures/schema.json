@@ -33,6 +33,25 @@
         }
       }]
     },
+    "inheritanceIntersection": {
+      "properties": {
+        "key1": {
+          "type": "string"
+        },
+        "key2": {
+          "type": "string"
+        }
+      },
+      "oneOf": [{
+        "$ref": "#/definitions/exact"
+      }, {
+        "properties": {
+          "key4": {
+            "$ref": "#/definitions/exact"
+          }
+        }
+      }]
+    },
     "exact": {
       "properties": {
         "key1": {
