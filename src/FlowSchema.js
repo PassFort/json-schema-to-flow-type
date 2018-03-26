@@ -39,7 +39,7 @@ export class FlowSchema {
   $union: ?Array<FlowSchema>;
   $intersection: ?Array<FlowSchema>;
   $definitions: { [key: string]: FlowSchema };
-  $exact: ?boolean
+  $exact: ?boolean;
 
   static omitUndefined = (arr: Array<any>): Array<any> =>
     _.filter(arr, (item: any): any => !_.isUndefined(item));
@@ -174,27 +174,39 @@ export const convertSchema = (schema: Schema): FlowSchema => {
   }
 
   if (schema.oneOf && schema.properties) {
-    const oneOfs = _.map(schema.oneOf, oneOf => ({
-      ...oneOf,
-      properties: {
-        ...schema.properties,
-        ...oneOf.properties,
-      },
-    }));
-    return f.union(_.map(oneOfs, convertSchema));
+    return f.union(
+      _.map(schema.oneOf, oneOf => {
+        if (oneOf.$ref)
+          return flow('any').intersection([
+            flow('any').flowRef(oneOf.$ref),
+            convertSchema({
+              type: 'object',
+              properties: schema.properties,
+            }),
+          ]);
+
+        return convertSchema({
+          ...oneOf,
+          properties: {
+            ...schema.properties,
+            ...oneOf.properties,
+          },
+        });
+      }),
+    );
   } else if (schema.oneOf) {
     return f.union(_.map(schema.oneOf, convertSchema));
   }
 
   if (schema.anyOf && schema.properties) {
-    const oneOfs = _.map(schema.anyOf, anyOf => ({
+    const anyOfs = _.map(schema.anyOf, anyOf => ({
       ...anyOf,
       properties: {
         ...schema.properties,
         ...anyOf.properties,
       },
     }));
-    return f.union(_.map(oneOfs, convertSchema));
+    return f.union(_.map(anyOfs, convertSchema));
   } else if (schema.anyOf) {
     return f.union(_.map(schema.anyOf, convertSchema));
   }

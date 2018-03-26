@@ -244,7 +244,6 @@ test('should convert simple types', (t) => {
   );
 });
 
-
 test('should convert Object', (t) => {
   t.deepEqual(
     convertSchema({
@@ -327,3 +326,70 @@ test('should convert Array', (t) => {
       ]),
   );
 });
+
+test('should convert Array', (t) => {
+  t.deepEqual(
+    convertSchema({
+      type: 'array',
+      items: {
+        type: 'string'
+      }
+    }),
+    flow('Array').union([flow('string')])
+  )
+})
+
+test('should convert properties and oneOf', (t) => {
+  t.deepEqual(
+    convertSchema({
+      type: 'object',
+      definitions: {
+        Bar: {
+          type: 'object',
+          properties: {
+            bar: {
+              type: 'string'
+            }
+          }
+        }
+      },
+      properties: {
+        foo: {
+          type: 'string'
+        }
+      },
+      oneOf: [
+        {
+          $ref: '#/definitions/Bar'
+        },
+        {
+          properties: {
+            baz: {
+              type: 'string'
+            }
+          }
+        }
+      ]
+    }),
+    flow('any')
+    .union([
+      flow('any').intersection([
+        flow('any').flowRef('#/definitions/Bar'),
+        flow('Object').props({
+          foo: flow('string')
+        }),
+      ]),
+      flow('Object').props({
+        foo: flow('string'),
+        baz: flow('string')
+      })
+    ])
+    .definitions({
+      Bar: flow('Object')
+      .id('Bar')
+      .props({
+        bar: flow('string')
+      })
+    })
+  )
+})
