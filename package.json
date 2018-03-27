@@ -17,11 +17,13 @@
     "prepublish": "flow-typed update && npm test && npm run build"
   },
   "devDependencies": {
+    "@babel/code-frame": "^7.0.0-beta.42",
     "@morlay/babel-preset": "3.0.x",
     "ava": "^0.19.0",
     "babel-cli": "6.18.x",
     "babel-core": "6.18.x",
     "babel-eslint": "^8.2.2",
+    "babylon": "^7.0.0-beta.42",
     "eslint": "^4.19.0",
     "eslint-plugin-flowtype": "^2.46.1",
     "flow-bin": "^0.67.1",
