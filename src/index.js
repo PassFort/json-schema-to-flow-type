@@ -1,7 +1,7 @@
 // @flow
 
-import * as t from 'babel-types';
-import generate from 'babel-generator';
+import * as t from '@babel/types';
+import generate from '@babel/generator';
 import _ from 'lodash';
 
 import type {
