@@ -36,3 +36,8 @@ convert definitions and schema root by `toFlow`
 ### `parseSchema(schema: Schema, imports: ?Imports): string`
 
 pipe `simplifySchema | convertSchema | schemaToFlow`
+
+## Changelog
+
+### 0.3.0
+* Support for [exact object types](https://flow.org/en/docs/types/objects/#toc-exact-object-types) when `additionalProperties: false` is present.
