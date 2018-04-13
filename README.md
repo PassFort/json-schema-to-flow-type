@@ -39,5 +39,8 @@ pipe `simplifySchema | convertSchema | schemaToFlow`
 
 ## Changelog
 
+### 0.4.0
+* Support for string literal object type keys
+
 ### 0.3.0
 * Support for [exact object types](https://flow.org/en/docs/types/objects/#toc-exact-object-types) when `additionalProperties: false` is present.
