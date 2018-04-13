@@ -8,6 +8,7 @@
 ./flow-typed
 
 [options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
 module.name_mapper='^definitions\/\(.*\)$' -> '<PROJECT_ROOT>/definitions/\1'
 module.name_mapper='^src\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
 

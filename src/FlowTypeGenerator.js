@@ -3,6 +3,8 @@
 import _ from 'lodash';
 import * as t from '@babel/types';
 
+import { isValidObjectKey } from './validateIdentifier';
+
 import {
   FlowSchema,
 } from './FlowSchema';
@@ -26,8 +28,12 @@ const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor)
   const properties = _.map(
     flowSchema.$properties || {},
     (fieldFlowSchema: FlowSchema, field: string) => {
+      const identifier = isValidObjectKey(field)
+        ? t.identifier(field)
+        : t.stringLiteral(field);
+
       const ast = t.objectTypeProperty(
-        t.identifier(field),
+        identifier,
         processor(fieldFlowSchema),
       );
 
