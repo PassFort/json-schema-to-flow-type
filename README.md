@@ -13,7 +13,7 @@ or
 
 ## Usage
 
-The code snipped below shows the most common usage of this module. The script imports a json file containing your json-schema, it will then convert it into a string of flow types, which is then written into a type definitions file. This should cover most use cases for, but the exported API is described [below](#apis).
+The code snipped below shows the most common usage of this module. The script imports a json file containing your json-schema, it will then convert it into a string of flow types, which is then written into a type definitions file. This should cover most use cases, but the exported API is described [below](#apis).
 
 ```javascript
 const {writeFileSync} = require('fs');
