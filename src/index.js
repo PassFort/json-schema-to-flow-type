@@ -41,7 +41,7 @@ export const toFlow = (flowSchema: FlowSchema): Object =>
 export const schemaToFlow = (flowSchema: FlowSchema): string =>
   _.map(
     [
-      ...(_.map(flowSchema.$definitions, toFlow)),
+      ...(_(flowSchema.$definitions).toPairs().sortBy(0).flatMap(pair => toFlow(pair[1])).value()),
       toFlow(flowSchema),
     ],
     (ast: Object): string => generate(ast).code,
