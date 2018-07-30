@@ -31,8 +31,8 @@
     "fs-extra": "1.0.0"
   },
   "dependencies": {
-    "@babel/generator": "^7.0.0-beta.44",
-    "@babel/types": "^7.0.0-beta.44",
+    "@babel/generator": "7.0.0-beta.44",
+    "@babel/types": "7.0.0-beta.44",
     "eslint-plugin-flow": "^2.29.1",
     "lodash": "4.17.x"
   },
