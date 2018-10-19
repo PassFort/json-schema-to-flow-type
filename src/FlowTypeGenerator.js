@@ -56,6 +56,7 @@ const processObjectSchema = (flowSchema: FlowSchema, processor: SchemaProcessor)
       ),
     ] : null,
     null,
+    null,
     !!flowSchema.$exact,
   );
 };
