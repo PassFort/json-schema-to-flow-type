@@ -93,6 +93,7 @@ test('should convert exact object', t => {
   t.deepEqual(
     convertSchema({
       id: 'Exact',
+      type: 'object',
       properties: {
         number: {
           type: 'number',
