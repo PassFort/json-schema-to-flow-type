@@ -197,6 +197,24 @@ test('should convert multi type', (t) => {
   );
 });
 
+test('should convert multi type contains object', (t) => {
+  t.deepEqual(
+    convertSchema({
+      type: ['object', 'null'],
+      properties: {
+        foo: {
+          type: 'string',
+        },
+      },
+    }),
+    flow()
+      .union([
+        flow('Object').props({ foo: flow('string') }),
+        flow('null'),
+      ]),
+  );
+});
+
 test('should convert simple types', (t) => {
   t.deepEqual(
     convertSchema({
