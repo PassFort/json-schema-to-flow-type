@@ -10,24 +10,8 @@ import type {
 
 type FlowType = 'Object' | 'Array' | 'string' | 'number' | 'boolean' | 'null' | 'any' | 'void';
 
-const hasProps = (schema: Schema, props: Array<string>): boolean =>
-  _.reduce(props, (result: boolean, prop: string) => result || _.has(schema, prop), false);
-
-const isObject = (schema: Schema): boolean => hasProps(schema, [
-  'properties',
-  'additionalProperties',
-  'patternProperties',
-  'maxProperties',
-  'minProperties',
-]);
-
-const isArray = (schema: Schema): boolean => hasProps(schema, [
-  'items',
-  'additionalItems',
-  'maxItems',
-  'minItems',
-  'uniqueItems',
-]);
+const isObject = (schema: Schema): boolean => schema.type === 'object';
+const isArray = (schema: Schema): boolean => schema.type === 'array';
 
 export class FlowSchema {
   $id: string;

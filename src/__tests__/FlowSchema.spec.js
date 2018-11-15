@@ -93,6 +93,7 @@ test('should convert exact object', t => {
   t.deepEqual(
     convertSchema({
       id: 'Exact',
+      type: 'object',
       properties: {
         number: {
           type: 'number',
@@ -193,6 +194,24 @@ test('should convert multi type', (t) => {
       .union([
         flow('string'),
         flow('number'),
+      ]),
+  );
+});
+
+test('should convert multi type contains object', (t) => {
+  t.deepEqual(
+    convertSchema({
+      type: ['object', 'null'],
+      properties: {
+        foo: {
+          type: 'string',
+        },
+      },
+    }),
+    flow()
+      .union([
+        flow('Object').props({ foo: flow('string') }),
+        flow('null'),
       ]),
   );
 });
